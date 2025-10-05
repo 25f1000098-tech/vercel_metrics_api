@@ -11,16 +11,15 @@ app = FastAPI()
 # This allows any website to make POST requests to our API.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Allows all origins
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"], # Allows all methods, including POST
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # --- Data Loading ---
-# Load the telemetry data from the JSON file into a pandas DataFrame.
-# This happens once when the server starts.
-df = pd.read_json("api/telemetry.json")
+# Load the telemetry data from the NEW JSON file.
+df = pd.read_json("api/q-vercel-latency.json")
 
 # --- Define the structure of the incoming request body ---
 class LatencyRequest(BaseModel):
@@ -63,4 +62,4 @@ def get_latency_stats(request: LatencyRequest):
 # A simple root endpoint to confirm the API is running
 @app.get("/")
 def read_root():
-    return {"message": "Metrics API is running. Use the /api endpoint with a POST request."}
+    return {"message": "Latency Pings API is running. Use the /api endpoint with a POST request."}
